@@ -3,9 +3,15 @@
 #include <stdio.h>
 #include <errno.h>
 
+#include <buildin/sighandler.h>
+
 extern int main(int argc, char* argv[], char* envp[]);
 
 void _start() {
+	for (int i = 0; i < 32; i++) {
+		env_set2(ENV_SIGHANDLER, i, __libc_sighandler);
+	}
+	
 	__libc_init_alloc();
 
 	env_set(ENV_ERRNO, &__errno);
