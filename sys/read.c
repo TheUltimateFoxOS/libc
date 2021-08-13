@@ -1,4 +1,5 @@
 #include <sys/read.h>
+#include <errno.h>
 
 #include <stdbool.h>
 
@@ -11,6 +12,11 @@ void read(int fd, const void* buf, int count) {
 	// this is done like that because we will process file io differently
 	if(fd == STDIN) {
 		while (!done) {
+			
+			if (errno == 0xded) {
+				return;
+			}
+
 			__asm__ __volatile__ ("nop");
 		}
 	}
