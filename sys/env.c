@@ -15,3 +15,7 @@ void env_set(int mode, void* data) {
 void env_set2(int mode, int data, void* data2) {
 	__asm__ __volatile__ ("int $0x30" : : "a" (SYS_ENV), "b" (mode), "c" (data), "d" (data2));
 }
+
+void env_set3(int mode, int data) {
+	__asm__ __volatile__ ("int $0x30" : : "a" (SYS_ENV), "b" (mode), "c" (data));
+}
