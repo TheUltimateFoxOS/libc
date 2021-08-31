@@ -13,3 +13,4 @@
 EXPOSEC int vsprintf(char *buf, const char *fmt, va_list args);
 EXPOSEC int printf(const char *fmt, ...);
 EXPOSEC int sprintf(char *buf, const char *fmt, ...);
+EXPOSEC char getchar();
