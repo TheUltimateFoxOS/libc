@@ -9,6 +9,7 @@
 #define ENV_ERRNO 2
 #define ENV_SIGHANDLER 3
 #define ENV_KEYMAP 4
+#define ENV_KEYBOARD_DEBUG 5
 
 enum keyboard_layout {
 	keymap_de_e = 0,
