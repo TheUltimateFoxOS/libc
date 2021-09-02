@@ -10,6 +10,7 @@
 #define ENV_SIGHANDLER 3
 #define ENV_KEYMAP 4
 #define ENV_KEYBOARD_DEBUG 5
+#define ENV_REBOOT 6
 
 enum keyboard_layout {
 	keymap_de_e = 0,
@@ -18,6 +19,7 @@ enum keyboard_layout {
 };
 
 EXPOSEC char** env(int mode);
+EXPOSEC void env2(int mode);
 EXPOSEC void env_set(int mode, void* data);
 
 EXPOSEC void env_set2(int mode, int data, void* data2);
