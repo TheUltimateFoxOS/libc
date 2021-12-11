@@ -3,8 +3,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define SYS_SPAWN 0xff
-
 typedef struct s_registers {
 	uint64_t cr4;
 	uint64_t cr3;
@@ -37,18 +35,19 @@ typedef void (*signal_handler)(uint8_t signum);
 
 typedef struct task {
 	s_registers regs;
+	char fxsr_state[512] __attribute__((aligned(16)));
 	uint64_t stack;
-	bool first_sched;
-	bool kill_me;
-	bool lock;
-	bool is_elf;
-	void* offset;
-	int page_count;
-	char **argv;
-	char **envp;
-	int* errno;
 
-	signal_handler signals[32];
+	bool first_sched; // is true if the task just got created
+	bool kill_me; // if true task gets killed
+	bool lock; // if true task is locked and doesent get scheduled
+
+	bool is_elf; // if true task is started from an elf
+	char** argv;
+	char** envp;
+
+	void* offset; // offset of the elf
+	int page_count; // number of pages the elf needs
 } task;
 
 EXPOSEC task* spawn(const char* path, const char* argv[], const char* envp[]);

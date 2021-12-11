@@ -9,12 +9,7 @@ char getchar() {
 	errno = 0;
 
 	char input[1];
-	read(STDIN, input, 1);
-
-	if (errno == 0xded) {
-		printf("Other procces is already reading from stdin!");
-		abort();
-	}
+	read(STDIN, input, 1, 0);
 
 	return input[0];
 }

@@ -2,4 +2,4 @@
 
 #define STDIN 0
 
-EXPOSEC void read(int fd, const void* buf, int count);
+EXPOSEC void read(int fd, const void* buf, int count, int offset);

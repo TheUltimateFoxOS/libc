@@ -11,7 +11,7 @@ int printf(const char *fmt, ...) {
 	printed = vsprintf(printf_buf, fmt, args);
 	va_end(args);
 
-	write(STDOUT, printf_buf, printed);
+	write(STDOUT, printf_buf, printed, 0);
 
 	return printed;
 }

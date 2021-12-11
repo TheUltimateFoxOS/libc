@@ -3,8 +3,6 @@
 #include <stdarg.h>
 #include <stddef.h>
 
-#include <sys/seek_set.h> // for SEEK_* definitions
-
 #define ZEROPAD	1
 #define SIGN	2
 #define PLUS	4
