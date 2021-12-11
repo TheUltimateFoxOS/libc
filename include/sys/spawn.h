@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define SYS_SPAWN 8
+#define SYS_SPAWN 0xff
 
 typedef struct s_registers {
 	uint64_t cr4;

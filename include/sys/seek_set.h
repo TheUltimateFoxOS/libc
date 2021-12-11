@@ -2,7 +2,7 @@
 
 #include <extern.h>
 
-#define SYS_SEEK_SET 12
+#define SYS_SEEK_SET 0xff
 
 enum seek_type {
 	SEEK_SET = 1,

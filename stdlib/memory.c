@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>	
 
 struct list_node_t* alloc_list_head = NULL;
 
@@ -24,12 +25,16 @@ void __libc_uninit_alloc() {
 	__libc_list_dispose(alloc_list_head);
 }
 
+// TODO allow sizes bigger than 4096
+// This needs to store somewhere the size of the allocated memory
+
 void* __libc_malloc(size_t size) {
+	assert(size < 0x1000);
 	return memory(NULL, size, MEM_ALLOC);
 }
 
 void __libc_free(void* address) {
-	memory(address, 0, MEM_FREE);
+	memory(address, 4096, MEM_FREE);
 }
 
 void* malloc(size_t size) {

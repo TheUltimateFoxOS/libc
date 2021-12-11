@@ -2,7 +2,7 @@
 #pragma once
 #include <extern.h>
 
-#define SYS_ENV 5
+#define SYS_ENV 0xff
 
 #define ENV_ARGV 0
 #define ENV_ENVP 1

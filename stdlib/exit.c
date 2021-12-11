@@ -1,16 +1,14 @@
 #include <stdlib.h>
-#include <sys/resolve_symbol.h>
+#include <sys/exit.h>
 #include <stdio.h>
 
 void __libc_exit(int code) {
 	//#warning "Deallocate allocated memory and stuff here!";
 	__libc_uninit_alloc();
 
-	void* exit_func = resolve_symbol("task_entry.exit");
-
 	printf("Exit code %d\n", code);
 
-	__asm__ __volatile__ ("jmp %%rax" : : "a" (exit_func));
+	_exit();
 }
 
 void abort(void) {

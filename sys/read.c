@@ -1,23 +1,20 @@
 #include <sys/read.h>
+#include <sys/get_syscall_id.h>
+
 #include <errno.h>
 
-#include <stdbool.h>
+int sys_read_id = -1;
 
 void read(int fd, const void* buf, int count) {
-	bool done = false;
-	
-	__asm__ __volatile__ ("mov %%rax, %%r8" : : "a" (&done));
-	__asm__ __volatile__ ("int $0x30" : : "a" (SYS_READ), "b" (fd), "c" (buf), "d" (count));
+	if (sys_read_id == -1) {
+		sys_read_id = get_syscall_id("sys_read");
+	}
 
-	// this is done like that because we will process file io differently
-	if(fd == STDIN) {
-		while (!done) {
-			
-			if (errno == 0xded) {
-				return;
-			}
+	int error;
 
-			__asm__ __volatile__ ("nop");
-		}
+	__asm__ __volatile__ ("int $0x30" : "=a" (error) : "a" (sys_read_id), "b" (fd), "c" (buf), "d" (count));
+
+	if (error != 0) {
+		errno = error;
 	}
 }
