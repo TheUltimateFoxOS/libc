@@ -12,7 +12,7 @@ void read(int fd, const void* buf, int count, int offset) {
 
 	int error;
 
-	__asm__ __volatile__ ("int $0x30" : "=a" (error) : "a" (sys_read_id), "b" (fd), "c" (buf), "d" (count), "rsi" (offset));
+	__asm__ __volatile__ ("int $0x30" : "=a" (error) : "a" (sys_read_id), "b" (fd), "c" (buf), "d" (count), "S" (offset));
 
 	if (error != 0) {
 		errno = error;
