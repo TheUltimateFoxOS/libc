@@ -13,7 +13,7 @@ void __libc_init_alloc() {
 }
 
 void __libc_dealloc_enumerator(struct list_node_t* node) {
-	printf("Dealloc: 0x%x, size: 0x%x\n", node->data, node->data2);
+	// printf("Dealloc: 0x%x, size: 0x%x\n", node->data, node->data2);
 
 	if(node->data != START_MARKER) {
 		__libc_free((void*) node->data);

@@ -48,6 +48,10 @@ typedef struct task {
 
 	void* offset; // offset of the elf
 	int page_count; // number of pages the elf needs
+
+	bool* on_exit; // if it isn't a nullptr gets set to true when the task exits
+
+	signal_handler signals[32];
 } task;
 
 EXPOSEC task* spawn(const char* path, const char* argv[], const char* envp[]);
