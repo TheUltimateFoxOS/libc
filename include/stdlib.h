@@ -23,3 +23,5 @@ EXPOSEC void* malloc(size_t size);
 EXPOSEC void free(void* addr);
 EXPOSEC void* calloc(size_t count, size_t size);
 EXPOSEC void* realloc(void* pointer, size_t size);
+
+EXPOSEC char* getenv(const char* name);
