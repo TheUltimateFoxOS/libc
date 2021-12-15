@@ -6,6 +6,8 @@
 #define ENV_ENVP 1
 #define ENV_ERRNO 2
 #define ENV_SIGHANDLER 3
+#define ENV_SET_CWD 4
+#define ENV_GET_CWD 5
 
 EXPOSEC char** env(int mode);
 // EXPOSEC void env2(int mode);

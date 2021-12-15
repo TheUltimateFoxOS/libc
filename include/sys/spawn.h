@@ -52,6 +52,8 @@ typedef struct task {
 	bool* on_exit; // if it isn't a nullptr gets set to true when the task exits
 
 	signal_handler signals[32];
+
+	char cwd[128];
 } task;
 
-EXPOSEC task* spawn(const char* path, const char* argv[], const char* envp[]);
+EXPOSEC task* spawn(const char* path, const char* argv[], const char* envp[], bool clone_cwd);
