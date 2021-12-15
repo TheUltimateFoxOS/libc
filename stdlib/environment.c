@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <sys/env.h>
 #include <string.h>
+#include <stdio.h>
 
 char* getenv(const char* name) {
 	size_t name_len = strlen((char*) name);
@@ -34,7 +35,7 @@ void resolve(char* path, char* output) {
 
 		if (tmp[0] == '/') {
 			printf("Unsupported path: '%s'\n", tmp);
-			return 1;
+			return;
 		}
 
 		if (tmp[strlen(tmp) - 1] == '/') {
