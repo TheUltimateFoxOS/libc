@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 char* getenv(const char* name) {
+
 	size_t name_len = strlen((char*) name);
 
 	char** envp = env(ENV_ENVP);
@@ -21,6 +22,7 @@ char* getenv(const char* name) {
 void compute_dot_dot(char* path, char* output);
 
 void resolve(char* path, char* output) {
+
 	char* cwd = (char*) env(ENV_GET_CWD);
 	memcpy(output, cwd, strlen(cwd));
 
@@ -51,11 +53,15 @@ void resolve(char* path, char* output) {
 		strcpy(output, tmp);
 	}
 
+
+
 	char compute_dot_dot_path[256];
 	memset(compute_dot_dot_path, 0, sizeof(compute_dot_dot_path));
 	strcpy(compute_dot_dot_path, output);
 
 	compute_dot_dot(compute_dot_dot_path, output);
+
+
 }
 
 void compute_dot_dot(char* path, char* output) {
@@ -63,6 +69,8 @@ void compute_dot_dot(char* path, char* output) {
 	// example output fat32_0:/
 	// example input fat32_0:/efi/foxos/../boot
 	// example output fat32_0:/efi/foxos/boot
+
+
 
 	char* path_segments[256];
 	int path_segments_count = 0;
@@ -104,4 +112,6 @@ void compute_dot_dot(char* path, char* output) {
 			strcat(output, path_segments[i]);
 		}
 	}
+
+
 }

@@ -4,7 +4,7 @@
 
 int sys_time_id = -1;
 
-long long time() {
+long long _time() {
 	if (sys_time_id == -1) {
 		sys_time_id = get_syscall_id("sys_time");
 	}

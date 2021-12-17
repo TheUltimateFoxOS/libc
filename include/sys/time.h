@@ -2,4 +2,4 @@
 
 #include <extern.h>
 
-EXPOSEC long long time();
+EXPOSEC long long _time();

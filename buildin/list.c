@@ -64,7 +64,7 @@ struct list_node_t* __libc_list_remove_front(struct list_node_t* head) {
 		head = NULL;
 	}
 
-	__libc_free(front);
+	__libc_free(front, sizeof(struct list_node_t));
 
 	return head;
 }
@@ -80,7 +80,7 @@ struct list_node_t* __libc_list_remove_back(struct list_node_t* head) {
 		current = current->next;
 	}
 	
-	__libc_free(current->next);
+	__libc_free(current->next, sizeof(struct list_node_t));
 
 	current->next = NULL;
 
@@ -112,7 +112,7 @@ struct list_node_t* __libc_list_remove(struct list_node_t* head, struct list_nod
 		struct list_node_t* tmp = cursor->next;
 		cursor->next = tmp->next;
 		tmp->next = NULL;
-		__libc_free(tmp);
+		__libc_free(tmp, sizeof(struct list_node_t));
 	}
 
 	return head;
@@ -127,7 +127,7 @@ void __libc_list_dispose(struct list_node_t* head) {
 		head->next = NULL;
 		while(cursor != NULL) {
 			tmp = cursor->next;
-			__libc_free(cursor);
+			__libc_free(cursor, sizeof(struct list_node_t));
 			cursor = tmp;
 		}
 	}

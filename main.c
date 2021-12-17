@@ -13,6 +13,7 @@ void _start() {
 	}
 	
 	__libc_init_alloc();
+	__libc_init_stdio();
 
 	env_set(ENV_ERRNO, &__errno);
 

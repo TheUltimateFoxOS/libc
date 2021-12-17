@@ -15,7 +15,7 @@ EXPOSEC void _Exit(int status);
 EXPOSEC void __libc_exit(int code);
 
 EXPOSEC void* __libc_malloc(size_t size);
-EXPOSEC void __libc_free(void* address);
+EXPOSEC void __libc_free(void* address, size_t size);
 EXPOSEC void __libc_init_alloc();
 EXPOSEC void __libc_uninit_alloc();
 
@@ -27,3 +27,6 @@ EXPOSEC void* realloc(void* pointer, size_t size);
 EXPOSEC char* getenv(const char* name);
 
 EXPOSEC void resolve(char* path, char* output);
+
+EXPOSEC void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*));
+EXPOSEC int atoi(const char *str);

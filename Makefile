@@ -10,7 +10,7 @@ OBJS = $(patsubst %.c, $(OBJDIR)/%_$(OUTPUT).o, $(CPPSRC))
 
 TOOLCHAIN_BASE = /usr/local/foxos-x86_64_elf_gcc
 
-CFLAGS = -mno-red-zone -ffreestanding -fpic -g -Iinclude -nostdinc -mno-sse -mno-sse2 -mno-3dnow -mno-80387 -fno-stack-protector
+CFLAGS = -mno-red-zone -ffreestanding -fpic -g -Iinclude -nostdinc -fno-stack-protector
 LDFLAGS = -r
 
 ifeq (,$(wildcard $(TOOLCHAIN_BASE)/bin/foxos-gcc))

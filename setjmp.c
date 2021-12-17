@@ -1,6 +1,7 @@
 #include <setjmp.h>
 
 __attribute__((naked)) void longjmp(jmp_buf state, int value) {
+
 	__asm__ __volatile__ (	"movq  %rsi, %rax;"
 							"testq %rax, %rax;"
 							"setz  %al;"
@@ -15,6 +16,7 @@ __attribute__((naked)) void longjmp(jmp_buf state, int value) {
 }
 
 __attribute__((naked)) int setjmp(jmp_buf state) {
+
 	__asm__ __volatile__ (	"movq %rbx, 0(%rdi);"
 							"movq %rbp, 8(%rdi);"
 							"movq %r12, 16(%rdi);"

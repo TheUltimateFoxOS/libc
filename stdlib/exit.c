@@ -12,6 +12,7 @@ void __libc_exit(int code) {
 }
 
 void abort(void) {
+
 	__libc_exit(EXIT_FAILURE);
 }
 
