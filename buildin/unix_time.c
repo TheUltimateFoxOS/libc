@@ -69,5 +69,5 @@ void unix_time_to_string(unsigned long int unixtime, char* buffer) {
 	int year, month, day, hour, minute, second;
 	from_unix_time(unixtime, &year, &month, &day, &hour, &minute, &second);
 
-	sprintf(buffer, "%02d %s %02d %02d:%02d:%02d", day, month_names[month - 1], year, hour, minute, second);
+	sprintf(buffer, "%02d %s %d %02d:%02d:%02d", day, month_names[month - 1], year, hour, minute, second);
 }
