@@ -2,6 +2,7 @@
 #include <sys/env.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 char* getenv(const char* name) {
 
@@ -19,10 +20,9 @@ char* getenv(const char* name) {
     return NULL;
 }
 
-void compute_dot_dot(char* path, char* output);
+bool compute_dot_dot(char* path, char* output);
 
-void resolve(char* path, char* output) {
-
+bool resolve_check(char* path, char* output, bool check_child) {
 	char* cwd = (char*) env(ENV_GET_CWD);
 	memcpy(output, cwd, strlen(cwd));
 
@@ -38,39 +38,52 @@ void resolve(char* path, char* output) {
 		}
 
 		if (tmp[0] == '/') {
-			printf("Unsupported path: '%s'\n", tmp);
-			return;
-		}
+			memset(output, 0, sizeof(output));
+			strcpy(output, strtok(cwd, ":"));
+			strcat(output, ":");
+			strcat(output, tmp);
+		} else {
+			if (tmp[strlen(tmp) - 1] == '/') {
+				tmp[strlen(tmp) - 1] = '\0';
+			}
 
-		if (tmp[strlen(tmp) - 1] == '/') {
-			tmp[strlen(tmp) - 1] = '\0';
+			strcat(output, "/");
+			strcat(output, tmp);
 		}
-
-		strcat(output, "/");
-		strcat(output, tmp);
 	} else {
 		memset(output, 0, sizeof(output));
 		strcpy(output, tmp);
+		if (output[strlen(output) - 1] == ':') {
+			strcat(output, "/");
+		}
 	}
-
-
 
 	char compute_dot_dot_path[256];
 	memset(compute_dot_dot_path, 0, sizeof(compute_dot_dot_path));
 	strcpy(compute_dot_dot_path, output);
 
-	compute_dot_dot(compute_dot_dot_path, output);
+	bool out = compute_dot_dot(compute_dot_dot_path, output);
+	if (!out) {
+		return false;
+	}
+	
+	if (output[strlen(output) - 1] != '/') {
+		strcat(output, "/");
+	}
 
-
+	#warning Should check to see if file/dir exists (take into account check_child, for new files).
+	return true;
 }
 
-void compute_dot_dot(char* path, char* output) {
+bool resolve(char* path, char* output) {
+	return resolve_check(path, output, true);
+}
+
+bool compute_dot_dot(char* path, char* output) {
 	// example input fat32_0:/bin/..
 	// example output fat32_0:/
 	// example input fat32_0:/efi/foxos/../boot
 	// example output fat32_0:/efi/foxos/boot
-
-
 
 	char* path_segments[256];
 	int path_segments_count = 0;
@@ -84,13 +97,11 @@ void compute_dot_dot(char* path, char* output) {
 		}
 	}
 
-	
-
 	for (int i = 0; i < path_segments_count; i++) {
 		if (strcmp(path_segments[i], "..") == 0) {
 			if (i == 0) {
 				printf("Unsupported path: '%s'\n", path);
-				return;
+				return false;
 			}
 
 			int del_idx = i - 1;
@@ -113,5 +124,5 @@ void compute_dot_dot(char* path, char* output) {
 		}
 	}
 
-
+	return true;
 }

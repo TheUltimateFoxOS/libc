@@ -1,7 +1,8 @@
 #pragma once
+
 #include <extern.h>
 #include <stddef.h>
-
+#include <stdbool.h>
 
 #define EXIT_FAILURE 1
 #define EXIT_SUCCESS 0
@@ -26,7 +27,8 @@ EXPOSEC void* realloc(void* pointer, size_t size);
 
 EXPOSEC char* getenv(const char* name);
 
-EXPOSEC void resolve(char* path, char* output);
+EXPOSEC bool resolve_check(char* path, char* output, bool check_child);
+EXPOSEC bool resolve(char* path, char* output);
 
 EXPOSEC void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*));
 EXPOSEC int atoi(const char *str);
