@@ -67,7 +67,7 @@ bool resolve_check(char* path, char* output, bool check_child) {
 		return false;
 	}
 	
-	if (output[strlen(output) - 1] != '/') {
+	if (output[strlen(output) - 1] == ':') {
 		strcat(output, "/");
 	}
 

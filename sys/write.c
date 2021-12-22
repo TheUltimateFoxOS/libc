@@ -8,5 +8,5 @@ void write(int fd, const void* buf, int count, int offset) {
 		sys_write_id = get_syscall_id("sys_write");
 	}
 
-	__asm__ __volatile__ ("int $0x30" : : "a" (sys_write_id), "b" (fd), "c" (buf), "d" (count), "rsi" (offset));
+	__asm__ __volatile__ ("int $0x30" : : "a" (sys_write_id), "b" (fd), "c" (buf), "d" (count), "S" (offset));
 }
