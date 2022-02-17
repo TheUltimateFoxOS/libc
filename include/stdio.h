@@ -18,6 +18,7 @@ EXPOSEC int sprintf(char *buf, const char *fmt, ...);
 EXPOSEC int snprintf(char *buf, size_t size, const char *fmt, ...);
 EXPOSEC char getchar();
 EXPOSEC char putchar(char c);
+EXPOSEC int gets(char* buffer);
 
 #define FILE_BUFFER_SIZE 512
 
