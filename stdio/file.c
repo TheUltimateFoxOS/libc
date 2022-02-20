@@ -113,7 +113,7 @@ int fputs(const char *s, FILE *stream) {
 
 	write(stream->inner_fd, s, strlen((char*) s), stream->pos);
 
-	stream->pos += strlen(s);
+	stream->pos += strlen((char*) s);
 	return 0;
 }
 
