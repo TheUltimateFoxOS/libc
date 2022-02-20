@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include <sys/dir_at.h>
+
 char* getenv(const char* name) {
 
 	size_t name_len = strlen((char*) name);
@@ -21,6 +23,65 @@ char* getenv(const char* name) {
 }
 
 bool compute_dot_dot(char* path, char* output);
+
+bool exists_recursive(char* input, int current_slash) {
+	// printf("exists_recursive: %s\n", input);
+	char path_to_check[256];
+	char file_or_dir_to_check[256];
+
+	memset(path_to_check, 0, sizeof(path_to_check));
+	memset(file_or_dir_to_check, 0, sizeof(file_or_dir_to_check));
+
+	int index_of_slash_in_string = 0;
+	int current_slash_idx = current_slash;
+	while (current_slash_idx != -1 && index_of_slash_in_string < strlen(input)) {
+		index_of_slash_in_string++;
+		if (input[index_of_slash_in_string] == '/') {
+			current_slash_idx--;
+		}
+	}
+
+	for (int i = 0; i < index_of_slash_in_string; i++) {
+		path_to_check[i] = input[i];
+	}
+
+	for (int i = index_of_slash_in_string + 1; i < strlen(input); i++) {
+		file_or_dir_to_check[i - index_of_slash_in_string - 1] = input[i];
+	}
+
+	for (int i = 0; i < strlen(file_or_dir_to_check); i++) {
+		if (file_or_dir_to_check[i] == '/') {
+			file_or_dir_to_check[i] = '\0';
+			break;
+		}
+	}
+
+	// printf("path_to_check: %s\n", path_to_check);
+	// printf("file_or_dir_to_check: %s\n", file_or_dir_to_check);
+
+	if (file_or_dir_to_check[0] == '\0') {
+		return true;
+	}
+
+	dir_t dir = dir_at(0, path_to_check);
+	do {
+		for (int i = 0; i < strlen(dir.name); i++) {
+			if (dir.name[i] >= 'A' && dir.name[i] <= 'Z') {
+				dir.name[i] = dir.name[i] + 32;
+			}
+		}
+
+		// printf("dir.name: %s\n", dir.name);
+
+		if (strcmp(dir.name, file_or_dir_to_check) == 0) {
+			return exists_recursive(input, current_slash + 1);
+		}
+
+		dir = dir_at(dir.idx + 1, path_to_check);
+	} while (!dir.is_none);
+
+	return false;
+}
 
 bool resolve_check(char* path, char* output, bool check_child) {
 	char* cwd = (char*) env(ENV_GET_CWD);
@@ -71,8 +132,9 @@ bool resolve_check(char* path, char* output, bool check_child) {
 		strcat(output, "/");
 	}
 
-	#warning Should check to see if file/dir exists (take into account check_child, for new files).
-	return true;
+
+	// #warning Should check to see if file/dir exists (take into account check_child, for new files).
+	return exists_recursive(output, 0);
 }
 
 bool resolve(char* path, char* output) {
