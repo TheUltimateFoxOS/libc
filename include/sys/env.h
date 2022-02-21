@@ -8,9 +8,10 @@
 #define ENV_SIGHANDLER 3
 #define ENV_SET_CWD 4
 #define ENV_GET_CWD 5
+#define ENV_ACPI_SHUTDOWN 6
 
 EXPOSEC char** env(int mode);
-// EXPOSEC void env2(int mode);
+EXPOSEC void env2(int mode);
 EXPOSEC void env_set(int mode, void* data);
 
 EXPOSEC void env_set2(int mode, int data, void* data2);

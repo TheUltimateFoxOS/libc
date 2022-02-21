@@ -16,13 +16,13 @@ char** env(int mode) {
 	return env_ptr;
 }
 
-// void env2(int mode) {
-// 	if (sys_env_id == -1) {
-// 		sys_env_id = get_syscall_id("sys_env");
-// 	}
+void env2(int mode) {
+	if (sys_env_id == -1) {
+		sys_env_id = get_syscall_id("sys_env");
+	}
 
-// 	__asm__ __volatile__ ("int $0x30" : : "a" (sys_env_id), "b" (mode));
-// }
+	__asm__ __volatile__ ("int $0x30" : : "a" (sys_env_id), "b" (mode));
+}
 
 void env_set(int mode, void* data) {
 	if (sys_env_id == -1) {
