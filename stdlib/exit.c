@@ -13,7 +13,7 @@ void __libc_exit(int code) {
 	//#warning "Deallocate allocated memory and stuff here!";
 	__libc_uninit_alloc();
 
-	printf("Exit code %d\n", code);
+	// printf("Exit code %d\n", code);
 
 	_exit();
 }
