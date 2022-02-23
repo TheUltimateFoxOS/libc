@@ -9,6 +9,8 @@
 
 #define START_MARKER 0xdeadbeef
 
+typedef void (*shutdown_hook_t)(void);
+
 EXPOSEC void abort(void);
 EXPOSEC void exit(int status);
 EXPOSEC void _Exit(int status);
@@ -19,6 +21,7 @@ EXPOSEC void* __libc_malloc(size_t size);
 EXPOSEC void __libc_free(void* address, size_t size);
 EXPOSEC void __libc_init_alloc();
 EXPOSEC void __libc_uninit_alloc();
+EXPOSEC void __libc_set_shutdown_hook(shutdown_hook_t hook);
 
 EXPOSEC void* malloc(size_t size);
 EXPOSEC void free(void* addr);

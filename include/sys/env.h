@@ -9,6 +9,7 @@
 #define ENV_SET_CWD 4
 #define ENV_GET_CWD 5
 #define ENV_ACPI_SHUTDOWN 6
+#define ENV_ENVP_SET 7
 
 EXPOSEC char** env(int mode);
 EXPOSEC void env2(int mode);
