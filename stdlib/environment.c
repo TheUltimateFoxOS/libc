@@ -15,7 +15,11 @@ char* getenv(const char* name) {
 	for (size_t i = 0; envp[i] != NULL; i++) {
 		if (strncmp(name, envp[i], name_len) == 0) {
 			// Assume vars have the format VAR=VALUE.
-			return envp[i] + name_len + 1;
+			if (envp[i][name_len] == '=') {
+				return envp[i] + name_len + 1;
+			} else {
+				return NULL;
+			}
 		}
 	}
 
