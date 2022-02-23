@@ -75,6 +75,12 @@ bool exists_recursive(char* input, int current_slash) {
 			}
 		}
 
+		for (int i = 0; i < strlen(file_or_dir_to_check); i++) {
+			if (file_or_dir_to_check[i] >= 'A' && file_or_dir_to_check[i] <= 'Z') {
+				file_or_dir_to_check[i] = file_or_dir_to_check[i] + 32;
+			}
+		}
+
 		// printf("dir.name: %s\n", dir.name);
 
 		if (strcmp(dir.name, file_or_dir_to_check) == 0) {
