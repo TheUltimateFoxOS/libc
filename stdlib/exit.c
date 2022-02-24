@@ -15,7 +15,7 @@ void __libc_exit(int code) {
 
 	// printf("Exit code %d\n", code);
 
-	_exit();
+	_exit(code);
 }
 
 void abort(void) {

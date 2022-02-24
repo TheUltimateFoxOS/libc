@@ -50,6 +50,7 @@ typedef struct task {
 	int page_count; // number of pages the elf needs
 
 	bool* on_exit; // if it isn't a nullptr gets set to true when the task exits
+	int* exit_code; // if it isn't a nullptr gets set to the exit code of the task
 
 	signal_handler signals[32];
 
