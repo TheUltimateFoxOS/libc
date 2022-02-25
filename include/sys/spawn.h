@@ -32,7 +32,7 @@ typedef struct s_registers {
 } __attribute__((packed)) s_registers;
 
 typedef void (*signal_handler)(uint8_t signum);
-
+typedef void (*pipe)(char* buffer, uint64_t size);
 typedef struct task {
 	s_registers regs;
 	char fxsr_state[512] __attribute__((aligned(16)));
@@ -51,6 +51,11 @@ typedef struct task {
 
 	bool* on_exit; // if it isn't a nullptr gets set to true when the task exits
 	int* exit_code; // if it isn't a nullptr gets set to the exit code of the task
+
+	pipe stdin_pipe;
+	pipe stdout_pipe;
+	pipe stderr_pipe;
+	bool pipe_enabled;
 
 	signal_handler signals[32];
 
