@@ -32,7 +32,7 @@ FILE *fopen(const char *filename, const char *mode) {
 
 
 
-	int fd = open(filename);
+	int fd = open(filename_full);
 	if (fd < 0) {
 		return NULL;
 	}
@@ -52,7 +52,7 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 	read(stream->inner_fd, ptr, total, stream->pos);
 
 	stream->pos += total;
-	return total;
+	return 1;
 }
 
 int fseek(FILE *stream, long offset, int whence) {
@@ -84,13 +84,12 @@ long ftell(FILE *stream) {
 }
 
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
-
-	size_t total = size * nmemb;
+	int total = size * nmemb;
 	
 	write(stream->inner_fd, ptr, total, stream->pos);
 
 	stream->pos += total;
-	return total;
+	return 1;
 }
 
 int fprintf(FILE *stream, const char *format, ...) {
