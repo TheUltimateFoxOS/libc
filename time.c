@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 time_t time(time_t *tp) {
-	
 	time_t t = _time();
 	if (tp) {
 		*tp = t;
@@ -14,7 +13,6 @@ time_t time(time_t *tp) {
 }
 
 time_t mktime(struct tm *tp) {
-	
 	time_t t = _time();
 	struct tm tm = *tp;
 
@@ -56,7 +54,6 @@ time_t mktime(struct tm *tp) {
 }
 
 struct tm *gmtime(const time_t *tp) {
-	
 	struct tm *tm = malloc(sizeof(struct tm));
 	time_t t = *tp;
 
@@ -79,7 +76,6 @@ struct tm *gmtime(const time_t *tp) {
 }
 
 struct tm *localtime(const time_t *tp) {
-	
 	struct tm *tm = malloc(sizeof(struct tm));
 	time_t t = *tp;
 

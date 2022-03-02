@@ -28,7 +28,7 @@ char* getenv(const char* name) {
 
 bool compute_dot_dot(char* path, char* output);
 
-bool exists_recursive(char* input, int current_slash) {
+bool exists_recursive(char* input, int current_slash, bool check_child) {
 	// printf("exists_recursive: %s\n", input);
 	char path_to_check[256];
 	char file_or_dir_to_check[256];
@@ -84,7 +84,7 @@ bool exists_recursive(char* input, int current_slash) {
 		// printf("dir.name: %s\n", dir.name);
 
 		if (strcmp(dir.name, file_or_dir_to_check) == 0) {
-			return exists_recursive(input, current_slash + 1);
+			return exists_recursive(input, current_slash + 1, check_child);
 		}
 
 		dir = dir_at(dir.idx + 1, path_to_check);
@@ -137,14 +137,36 @@ bool resolve_check(char* path, char* output, bool check_child) {
 	if (!out) {
 		return false;
 	}
-	
+
+	bool is_root_path = false;
 	if (output[strlen(output) - 1] == ':') {
 		strcat(output, "/");
+		is_root_path = true;
+	} else if (output[strlen(output) - 2] == ':' && output[strlen(output) - 1] == '/') {
+		is_root_path = true;
+	}
+	if (is_root_path) {
+		return !dir_at(0, output).is_none;
+	}
+	
+	char check_exists[256];
+	memset(check_exists, 0, sizeof(check_exists));
+	strcpy(check_exists, output);
+	
+	if (!check_child) {
+		int last_slash_idx = -1;
+		for (int i = 0; i < strlen(check_exists); i++) {
+			if (check_exists[i] == '/') {
+				last_slash_idx = i;
+			}
+		}
+		if (last_slash_idx == -1) {
+			return false;
+		}
+		check_exists[last_slash_idx] = '\0';
 	}
 
-
-	// #warning Should check to see if file/dir exists (take into account check_child, for new files).
-	return exists_recursive(output, 0);
+	return exists_recursive(check_exists, 0, check_child);
 }
 
 bool resolve(char* path, char* output) {

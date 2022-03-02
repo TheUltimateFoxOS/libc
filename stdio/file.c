@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
+#include <sys/touch.h>
 #include <sys/write.h>
 #include <sys/read.h>
 #include <sys/open.h>
@@ -13,24 +15,23 @@ struct file_t* stdin;
 struct file_t* stderr;
 
 int fclose(FILE* stream) {
-
 	close(stream->inner_fd);
 	free(stream);
 }
 
 int fflush(FILE *stream) {
-
 	write(STDERR, "fflush not implemented\n", 24, 0);
 	return 0;
 }
 
 FILE *fopen(const char *filename, const char *mode) {
-
 	char filename_full[256];
 	memset(filename_full, 0, 256);
-	resolve((char*) filename, filename_full);
+	bool exists = resolve((char*) filename, filename_full);
 
-
+	if (!exists) {
+		touch(filename_full);
+	}
 
 	int fd = open(filename_full);
 	if (fd < 0) {
@@ -46,7 +47,6 @@ FILE *fopen(const char *filename, const char *mode) {
 }
 
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
-
 	size_t total = size * nmemb;
 	
 	read(stream->inner_fd, ptr, total, stream->pos);
@@ -56,7 +56,6 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
 }
 
 int fseek(FILE *stream, long offset, int whence) {
-
 	switch (whence) {
 		case SEEK_SET:
 			{
@@ -79,7 +78,6 @@ int fseek(FILE *stream, long offset, int whence) {
 }
 
 long ftell(FILE *stream) {
-
 	return stream->pos;
 }
 
@@ -93,7 +91,6 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream) {
 }
 
 int fprintf(FILE *stream, const char *format, ...) {
-
 	va_list args;
 	int i;
 	char buf[1024];
@@ -109,7 +106,6 @@ int fprintf(FILE *stream, const char *format, ...) {
 }
 
 int fputs(const char *s, FILE *stream) {
-
 	write(stream->inner_fd, s, strlen((char*) s), stream->pos);
 
 	stream->pos += strlen((char*) s);
@@ -117,7 +113,6 @@ int fputs(const char *s, FILE *stream) {
 }
 
 int fputc(int c, FILE *stream) {
-
 	write(stream->inner_fd, &c, 1, stream->pos);
 
 	stream->pos += 1;
@@ -125,7 +120,6 @@ int fputc(int c, FILE *stream) {
 }
 
 int fgetc(FILE *stream) {
-
 	char c;
 	read(stream->inner_fd, &c, 1, stream->pos);
 
@@ -134,7 +128,6 @@ int fgetc(FILE *stream) {
 }
 
 char *fgets(char *s, int size, FILE *stream) {
-
 	int i = 0;
 	while (i < size) {
 		char c = fgetc(stream);
@@ -151,13 +144,11 @@ char *fgets(char *s, int size, FILE *stream) {
 }
 
 int ferror(FILE *stream) {
-
 	return 0;
 }
 
 
 void __libc_init_stdio() {
-
 	stdout = malloc(sizeof(struct file_t));
 	memset(stdout, 0, sizeof(struct file_t));
 	stdout->inner_fd = STDOUT;

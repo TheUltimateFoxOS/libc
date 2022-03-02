@@ -7,7 +7,6 @@
 #include <sys/write.h>
 
 char getchar() {
-
 	errno = 0;
 
 	char input[1];
@@ -17,7 +16,6 @@ char getchar() {
 }
 
 char putchar(char c) {
-
 	errno = 0;
 
 	char output[1];

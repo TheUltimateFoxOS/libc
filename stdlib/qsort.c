@@ -3,8 +3,6 @@
 #include <string.h>
 
 void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*)) {
-	
-
 	if (nitems <= 1) {
 		return;
 	}

@@ -50,7 +50,6 @@ __attribute__((naked)) void* memset(void* start, uint8_t value, uint64_t num) {
 #endif
 
 int memcmp(const void * _s1, const void* _s2, size_t n) {
-
 	const unsigned char* s1 = (unsigned char*) _s1;
 	const unsigned char* s2 = (unsigned char*) _s2;
 

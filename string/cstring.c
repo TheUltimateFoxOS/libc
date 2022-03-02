@@ -1,6 +1,5 @@
 #include <string.h>
 
-
 char* strcpy(char* dest, const char* src) {
 	do {
 		*dest++ = *src++;
@@ -47,8 +46,9 @@ int strcmp(char* str1, char* str2) {
 		}
 		i++;
 	}
-	if((str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0'))
+	if ((str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0')) {
 		failed = 1;
+	}
 	return failed;
 }
 
@@ -121,10 +121,8 @@ char* strncpy(char* _dst, const char* _src, size_t count) {
 	return _dst;
 }
 
-unsigned int __is_delim(char c, char* delim)
-{
-	while(*delim != '\0')
-	{
+unsigned int __is_delim(char c, char* delim) {
+	while(*delim != '\0') {
 		if(c == *delim)
 			return 1;
 		delim++;
