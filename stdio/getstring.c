@@ -17,6 +17,8 @@ int gets(char* buffer) {
 			}
 		} else if (input == '\n') {
 			break;
+		} else if (input == 0) {
+			break;
 		} else {
 			buffer[buffer_len] = input;
 			buffer_len++;
