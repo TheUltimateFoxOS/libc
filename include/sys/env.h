@@ -11,6 +11,7 @@
 #define ENV_ACPI_SHUTDOWN 6
 #define ENV_ENVP_SET 7
 #define ENV_PIPE_DISABLE_ENABLE 8
+#define ENV_GET_TASK 9
 
 EXPOSEC char** env(int mode);
 EXPOSEC void env2(int mode);

@@ -33,6 +33,8 @@ typedef struct s_registers {
 
 typedef void (*signal_handler)(uint8_t signum);
 typedef void (*pipe)(char* buffer, uint64_t size);
+typedef void (*system_)(char* in);
+
 typedef struct task_t {
 	s_registers regs;
 	char fxsr_state[512] __attribute__((aligned(16)));
@@ -60,6 +62,8 @@ typedef struct task_t {
 	signal_handler signals[32];
 
 	char cwd[128];
+
+	system_ system_method;
 } task_t;
 
 EXPOSEC task_t* spawn(const char* path, const char* argv[], const char* envp[], bool clone_cwd);

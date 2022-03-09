@@ -35,3 +35,5 @@ EXPOSEC bool resolve(char* path, char* output);
 
 EXPOSEC void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void *, const void*));
 EXPOSEC int atoi(const char *str);
+
+EXPOSEC void system(char* command);
