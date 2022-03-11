@@ -64,6 +64,8 @@ typedef struct task_t {
 	char cwd[128];
 
 	system_ system_method;
+
+	int running_on_cpu;
 } task_t;
 
 EXPOSEC task_t* spawn(const char* path, const char* argv[], const char* envp[], bool clone_cwd);
