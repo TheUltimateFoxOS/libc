@@ -4,6 +4,7 @@
 #include <errno.h>
 
 #include <buildin/sighandler.h>
+#include <buildin/thread.h>
 
 extern int main(int argc, char* argv[], char* envp[]);
 
@@ -14,6 +15,7 @@ void _start() {
 	
 	__libc_init_alloc();
 	__libc_init_stdio();
+	__libc_init_childs_list();
 
 	env_set(ENV_ERRNO, &__errno);
 

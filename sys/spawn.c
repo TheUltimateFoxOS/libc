@@ -11,4 +11,6 @@ task_t* spawn(const char* path, const char* argv[], const char* envp[], bool clo
 
 	task_t* task;
 	__asm__ __volatile__ ("int $0x30" : "=a" (task) : "a" (sys_spawn_id), "b" (path), "c" (argv), "d" (envp), "S" (clone_cwd));
+
+	return task;
 }

@@ -2,6 +2,7 @@
 #include <sys/exit.h>
 #include <sys/write.h>
 #include <stdio.h>
+#include <buildin/thread.h>
 
 shutdown_hook_t shutdown_hook;
 
@@ -11,6 +12,8 @@ void __libc_exit(int code) {
 	}
 
 	//#warning "Deallocate allocated memory and stuff here!";
+
+	__libc_kill_childs();
 	__libc_uninit_alloc();
 
 	// printf("Exit code %d\n", code);
