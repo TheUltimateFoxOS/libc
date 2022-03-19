@@ -32,7 +32,7 @@ EXPOSEC task_t* create_thread(void* entry) {
 	__libc_list_append((uint64_t) t, 0, child_list_head);
 	struct list_node_t* node = __libc_list_search(child_list_head, (uint64_t) t);
 
-	t->on_exit = &node->data2;
+	t->on_exit = (bool*) &node->data2;
 
 	return t;
 }
