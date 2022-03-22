@@ -47,6 +47,22 @@ __attribute__((naked)) void* memset(void* start, uint8_t value, uint64_t num) {
 							"movq %r9, %rax;"
 							"ret;");
 }
+
+void* memmove(void *dest, const void *src, size_t len) {
+	char *d = dest;
+	const char *s = src;
+	if (d < s)
+    	while (len--)
+      		*d++ = *s++;
+  	else {
+    	char *lasts = s + (len-1);
+    	char *lastd = d + (len-1);
+    	while (len--)
+        	*lastd-- = *lasts--;
+    }
+  	return dest;
+}
+
 #endif
 
 int memcmp(const void * _s1, const void* _s2, size_t n) {
