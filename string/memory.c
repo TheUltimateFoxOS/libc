@@ -12,6 +12,21 @@ void* memcpy(void* dest, const void* src, size_t n) {
 	return dest;
 }
 
+void* memmove(void *dest, const void *src, size_t len) {
+	char *d = dest;
+	const char *s = src;
+	if (d < s)
+    while (len--)
+    	*d++ = *s++;
+  	else {
+  	    char *lasts = s + (len-1);
+  	    char *lastd = d + (len-1);
+  	    while (len--)
+  	      *lastd-- = *lasts--;
+  	}
+  	return dest;
+}	
+
 void* memset(void* start, uint8_t value, uint64_t num) {
 	for (uint64_t i = 0; i < num; i++){
 		*(uint8_t*)((uint64_t)start + i) = value;

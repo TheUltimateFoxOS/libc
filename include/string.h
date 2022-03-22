@@ -18,5 +18,6 @@ EXPOSEC char* strncpy(char* _dst, const char* _src, size_t count);
 EXPOSEC char* strtok(char* src_string, char* delim);
 
 EXPOSEC void* memcpy(void* dest, const void* src, size_t n);
+EXPOSEC void* memmove(void* dest, const void* src, size_t len);
 EXPOSEC void* memset(void* start, uint8_t value, uint64_t num);
 EXPOSEC int memcmp(const void * _s1, const void* _s2, size_t n);
