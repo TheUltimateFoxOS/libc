@@ -122,8 +122,8 @@ bool resolve_check(char* path, char* output, bool check_child) {
 			strcat(output, tmp);
 		}
 	} else {
-		memset(output, 0, sizeof(output));
-		strcpy(output, tmp);
+		memcpy(output, tmp, strlen(tmp));
+		output[strlen(tmp)] = 0;
 		if (output[strlen(output) - 1] == ':') {
 			strcat(output, "/");
 		}
