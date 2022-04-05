@@ -3,13 +3,16 @@
 #include <extern.h>
 
 #include <stdbool.h>
+
+#define MAX_DIR_NAME_LENGTH 256
+
 enum dir_entry_type_e {
 	ENTRY_FILE,
 	ENTRY_DIR
 };
 
 typedef struct {
-	char name[256];
+	char name[MAX_DIR_NAME_LENGTH];
 	int idx;
 	bool is_none;
 	enum dir_entry_type_e type;

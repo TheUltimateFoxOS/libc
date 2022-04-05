@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <stddef.h>
 
+#define BUFSIZ 1024
+
 #define ZEROPAD	1
 #define SIGN	2
 #define PLUS	4
