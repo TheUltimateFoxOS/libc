@@ -29,7 +29,7 @@ FILE *fopen(const char *filename, const char *mode) {
 	memset(filename_full, 0, 256);
 	bool exists = resolve((char*) filename, filename_full);
 
-	if (!exists && (strcmp(mode, "w") == 0 || strcmp(mode, "w+") == 0 || strcmp(mode, "wb") == 0)) {
+	if (!exists && (strcmp((char*) mode, "w") == 0 || strcmp((char*) mode, "w+") == 0 || strcmp((char*) mode, "wb") == 0)) {
 		touch(filename_full);
 	}
 
