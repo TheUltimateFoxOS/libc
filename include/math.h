@@ -45,4 +45,5 @@ define_stub_1p(exp);
 define_stub_1p(floor);
 define_stub_1p(ceil);
 define_stub_2p(fmod);
+define_stub_2p(pow);
 define_stub_1p(sqrt);
