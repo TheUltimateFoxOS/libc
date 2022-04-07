@@ -45,6 +45,7 @@ extern struct file_t* stderr;
 EXPOSEC int fclose(FILE* stream);
 EXPOSEC int fflush(FILE *stream);
 EXPOSEC FILE *fopen(const char *filename, const char *mode);
+EXPOSEC FILE *freopen(const char *filename, const char *mode, FILE *stream);
 EXPOSEC size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 EXPOSEC int fseek(FILE *stream, long offset, int whence);
 EXPOSEC long ftell(FILE *stream);
@@ -55,5 +56,9 @@ EXPOSEC int fputc(int c, FILE *stream);
 EXPOSEC int fgetc(FILE *stream);
 EXPOSEC char *fgets(char *s, int size, FILE *stream);
 EXPOSEC int ferror(FILE *stream);
+EXPOSEC int feof(FILE* stream);
+
+EXPOSEC int remove(const char *filename);
+EXPOSEC void rewind(FILE *stream);
 
 EXPOSEC void __libc_init_stdio();

@@ -9,6 +9,9 @@
 #include <sys/open.h>
 #include <sys/close.h>
 #include <sys/get_file_size.h>
+#include <sys/delete.h>
+#include <sys/delete_dir.h>
+#include <sys/dir_at.h>
 
 struct file_t* stdout;
 struct file_t* stdin;
@@ -44,6 +47,11 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->pos = 0;
 
 	return file;
+}
+
+FILE *freopen(const char *filename, const char *mode, FILE *stream) {
+	fclose(stream);
+	return fopen(filename, mode);
 }
 
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream) {
@@ -160,4 +168,72 @@ void __libc_init_stdio() {
 	stderr = malloc(sizeof(struct file_t));
 	memset(stderr, 0, sizeof(struct file_t));
 	stderr->inner_fd = STDERR;
+}
+
+int feof(FILE* stream) {
+	if (stream->pos >= stream->size) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+int remove(const char *filename) {
+	char parent_dir[MAX_DIR_NAME_LENGTH]; //Copy of filename
+	memset(parent_dir, 0, MAX_DIR_NAME_LENGTH);
+	strcpy(parent_dir, filename);
+
+	char* last_slash = strrchr(parent_dir, '/');
+	if (last_slash == NULL) {
+		return -1;
+	}
+	char* child_name = last_slash + 1;
+
+	parent_dir[last_slash - parent_dir] = 0; //Cut off the child name
+
+	int file_type = 0; //Get the file type: 0 = file, 1 = directory
+	dir_t dir = dir_at(0, parent_dir);
+	while (dir.is_none != true) {
+		if (strcmp(dir.name, child_name) == 0) {
+			if (dir.type == ENTRY_FILE) {
+				file_type = 1;
+			} else if (dir.type == ENTRY_DIR) {
+				file_type = 2;
+			}
+			break;
+		}
+		dir = dir_at(dir.idx + 1, parent_dir);
+	}
+
+	if (file_type == 1) { //Delete the file
+		int fd = open((char*) filename);
+		if (fd == -1) {
+			return -1;
+		}
+
+		delete_(fd);
+	} else if (file_type == 2) { //Delete the directory
+		delete_dir((char*) filename);
+	} else {
+		return -1;
+	}
+	
+	bool did_find = false; //Did we actually delete the file?
+	dir = dir_at(0, parent_dir);
+	while (dir.is_none != true) {
+		if (strcmp(dir.name, child_name) == 0) {
+			did_find = true;
+		}
+		dir = dir_at(dir.idx + 1, parent_dir);
+	}
+
+	if (!did_find) {
+		return 0;
+	} else {
+		return -1;
+	}
+}
+
+void rewind(FILE *stream) {
+	stream->pos = 0;
 }

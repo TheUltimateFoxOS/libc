@@ -14,6 +14,9 @@
 
 EXPOSEC int signbit(double x);
 
+EXPOSEC int abs(int x);
+EXPOSEC double fabs (double x);
+
 #define define_stub_1p(name) \
 	EXPOSEC double name(double x);
 
@@ -41,7 +44,5 @@ define_stub_1p(log);
 define_stub_1p(exp);
 define_stub_1p(floor);
 define_stub_1p(ceil);
-define_stub_1p(fabs);
 define_stub_2p(fmod);
-define_stub_2p(pow);
 define_stub_1p(sqrt);

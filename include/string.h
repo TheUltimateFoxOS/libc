@@ -6,16 +6,18 @@
 #define FAST_MEM
 
 EXPOSEC char* strcpy(char* dest, const char* src);
-EXPOSEC int strlen(char* src);
+EXPOSEC int strlen(const char* src);
 EXPOSEC size_t strnlen(const char *s, size_t maxlen);
 EXPOSEC char* strcat(char* dest, const char* src);
-EXPOSEC int strcmp(char* str1, char* str2);
+EXPOSEC int strcmp(const char* str1, const char* str2);
 EXPOSEC const char* strstr(const char* X, const char* Y);
 EXPOSEC char* strchr(const char* s, int c);
 EXPOSEC char* strrchr(const char* s, int c);
 EXPOSEC int strncmp(const char* s1, const char* s2, size_t n );
 EXPOSEC char* strncpy(char* _dst, const char* _src, size_t count);
 EXPOSEC char* strtok(char* src_string, char* delim);
+EXPOSEC size_t strspn(const char* str1, const char* str2);
+EXPOSEC size_t strcspn(const char* str1, const char* str2);
 
 EXPOSEC void* memcpy(void* dest, const void* src, size_t n);
 EXPOSEC void* memmove(void* dest, const void* src, size_t len);

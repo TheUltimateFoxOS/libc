@@ -7,18 +7,20 @@ char* strcpy(char* dest, const char* src) {
 	return 0;
 }
 
-int strlen(char* src){
+int strlen(const char* src){
 	int i = 0;
-	while (*src++)
+	while (*src++) {
 		i++;
+	}
 	return i;
 }
 
 size_t strnlen(const char *s, size_t maxlen) {
 	size_t i;
 	for (i = 0; i < maxlen; ++i)
-	if (s[i] == '\0')
+	if (s[i] == '\0') {
 		break;
+	}
 	return i;
 }
 
@@ -36,7 +38,7 @@ char* strcat(char* dest, const char* src) {
 	return dest;
 }
 
-int strcmp(char* str1, char* str2) {
+int strcmp(const char* str1, const char* str2) {
 	int i = 0;
 	int failed = 0;
 	while(str1[i] != '\0' && str2[i] != '\0') {
@@ -173,4 +175,35 @@ char* strtok(char* src_string, char* delim) {
 
 		src_string++;
 	}
+}
+
+size_t strspn(const char* str1, const char* str2) {
+	const char* ptr = str1;
+	const char* acc;
+
+	while (*str1) {
+		for (acc = str2; *acc; ++acc) {
+			if (*str1 == *acc) {
+				break;
+			}
+		}
+		if (*acc == '\0') {
+			break;
+		}
+
+		str1++;
+	}
+
+	return str1 - ptr;
+}
+
+size_t strcspn(const char* str1, const char* str2) {
+	size_t count = 0;
+	
+	while (strchr(str2, *str1) == 0) {
+		count++;
+		str1++;
+	}
+
+	return count;
 }
