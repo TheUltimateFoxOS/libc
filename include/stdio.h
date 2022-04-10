@@ -62,3 +62,4 @@ EXPOSEC int remove(const char *filename);
 EXPOSEC void rewind(FILE *stream);
 
 EXPOSEC void __libc_init_stdio();
+EXPOSEC void __libc_uninit_stdio();

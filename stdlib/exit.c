@@ -14,6 +14,7 @@ void __libc_exit(int code) {
 	//#warning "Deallocate allocated memory and stuff here!";
 
 	__libc_kill_childs();
+	__libc_uninit_stdio();
 	__libc_uninit_alloc();
 
 	// printf("Exit code %d\n", code);

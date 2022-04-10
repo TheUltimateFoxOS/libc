@@ -16,6 +16,9 @@ void __libc_dealloc_enumerator(struct list_node_t* node) {
 	// printf("Dealloc: 0x%x, size: 0x%x\n", node->data, node->data2);
 
 	if(node->data != START_MARKER) {
+	#ifdef MEMORY_TRACKING
+		printf("--- WARNING --- leaking memory at 0x%x\n", node->data);
+	#endif
 		__libc_free((void*) node->data, node->data2);
 	}
 }

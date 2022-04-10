@@ -13,13 +13,21 @@
 #include <sys/delete_dir.h>
 #include <sys/dir_at.h>
 
+#include <buildin/list.h>
+
 struct file_t* stdout;
 struct file_t* stdin;
 struct file_t* stderr;
 
+struct list_node_t* file_list_head = NULL;
+
 int fclose(FILE* stream) {
+	struct list_node_t* node = __libc_list_search(file_list_head, (uint64_t) stream);
+
 	close(stream->inner_fd);
 	free(stream);
+
+	file_list_head = __libc_list_remove(file_list_head, node);
 }
 
 int fflush(FILE *stream) {
@@ -45,6 +53,8 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->inner_fd = fd;
 	file->size = get_file_size(fd);
 	file->pos = 0;
+
+	file_list_head = __libc_list_append(file, NULL, file_list_head);
 
 	return file;
 }
@@ -155,6 +165,15 @@ int ferror(FILE *stream) {
 	return 0;
 }
 
+void __libc_close_files_enumerator(struct list_node_t* node) {
+	if (node->data != START_MARKER) {
+	#ifdef MEMORY_TRACKING
+		printf("--- WARNING --- found unclosed file at 0x%x\n", node->data);
+	#endif
+		fclose((FILE*) node->data);
+	}
+}
+
 
 void __libc_init_stdio() {
 	stdout = malloc(sizeof(struct file_t));
@@ -168,6 +187,17 @@ void __libc_init_stdio() {
 	stderr = malloc(sizeof(struct file_t));
 	memset(stderr, 0, sizeof(struct file_t));
 	stderr->inner_fd = STDERR;
+
+	file_list_head = __libc_list_create(START_MARKER, START_MARKER, NULL);
+}
+
+void __libc_uninit_stdio() {
+	__libc_list_traverse(file_list_head, __libc_close_files_enumerator);
+	__libc_list_dispose(file_list_head);
+
+	free(stdout);
+	free(stdin);
+	free(stderr);
 }
 
 int feof(FILE* stream) {
