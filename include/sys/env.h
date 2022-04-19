@@ -14,6 +14,7 @@
 #define ENV_GET_TASK 9
 #define ENV_READ_RUNNING_TASKS 10
 #define ENV_ACPI_REBOOT 11
+#define ENV_GET_LOADED_MODULES 12
 
 EXPOSEC char** env(int mode);
 EXPOSEC void env2(int mode);
