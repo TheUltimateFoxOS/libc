@@ -10,4 +10,4 @@ typedef struct {
 	char version[64];
 } cpu_info_t;
 
-EXPOSEC int get_cpu_info(cpu_info_t* cpu_info);
+EXPOSEC int sm32_get_cpu_info(cpu_info_t* cpu_info);
