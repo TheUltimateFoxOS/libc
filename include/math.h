@@ -25,12 +25,14 @@ EXPOSEC double fabs (double x);
 
 #define define_stub_func_1p(name) \
 	EXPOSEC double name(double x) { \
-		return __builtin_##name (x); \
+		printf("%s: not implemented\n", #name); \
+		while (1); \
 	}
 
 #define define_stub_func_2p(name) \
 	EXPOSEC double name(double x, double y) { \
-		return __builtin_##name (x, y); \
+		printf("%s: not implemented\n", #name); \
+		while (1); \
 	}
 
 define_stub_1p(acos);
