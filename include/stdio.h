@@ -58,6 +58,9 @@ EXPOSEC char *fgets(char *s, int size, FILE *stream);
 EXPOSEC int ferror(FILE *stream);
 EXPOSEC int feof(FILE* stream);
 
+EXPOSEC int getc(FILE *stream);
+EXPOSEC int ungetc(int c, FILE *stream);
+
 EXPOSEC int remove(const char *filename);
 EXPOSEC void rewind(FILE *stream);
 

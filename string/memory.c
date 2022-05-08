@@ -78,3 +78,24 @@ int memcmp(const void * _s1, const void* _s2, size_t n) {
 	}
 	return 0;
 }
+
+void* memset16(void* start, uint16_t value, uint64_t num) {
+	uint16_t* buf = start;
+
+    while(num--) *buf++ = value;
+    return start;
+}
+
+void* memset32(void* start, uint32_t value, uint64_t num) {
+	uint32_t* buf = start;
+
+    while(num--) *buf++ = value;
+    return start;
+}
+
+void* memset64(void* start, uint64_t value, uint64_t num) {
+	uint64_t* buf = start;
+
+    while(num--) *buf++ = value;
+    return start;
+}

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #include <sys/dir_at.h>
+#include <sys/fs_at.h>
 
 char* getenv(const char* name) {
 
@@ -28,7 +29,7 @@ char* getenv(const char* name) {
 
 bool compute_dot_dot(char* path, char* output);
 
-bool exists_recursive(char* input, int current_slash, bool check_child) {
+bool exists_recursive(char* input, int current_slash) {
 	// printf("exists_recursive: %s\n", input);
 	char path_to_check[256];
 	char file_or_dir_to_check[256];
@@ -45,7 +46,7 @@ bool exists_recursive(char* input, int current_slash, bool check_child) {
 		}
 	}
 
-	for (int i = 0; i < index_of_slash_in_string; i++) {
+	for (int i = 0; i <= index_of_slash_in_string; i++) {
 		path_to_check[i] = input[i];
 	}
 
@@ -84,7 +85,7 @@ bool exists_recursive(char* input, int current_slash, bool check_child) {
 		// printf("dir.name: %s\n", dir.name);
 
 		if (strcmp(dir.name, file_or_dir_to_check) == 0) {
-			return exists_recursive(input, current_slash + 1, check_child);
+			return exists_recursive(input, current_slash + 1);
 		}
 
 		dir = dir_at(dir.idx + 1, path_to_check);
@@ -138,35 +139,51 @@ bool resolve_check(char* path, char* output, bool check_child) {
 		return false;
 	}
 
-	bool is_root_path = false;
-	if (output[strlen(output) - 1] == ':') {
-		strcat(output, "/");
-		is_root_path = true;
-	} else if (output[strlen(output) - 2] == ':' && output[strlen(output) - 1] == '/') {
-		is_root_path = true;
-	}
-	if (is_root_path) {
-		return !dir_at(0, output).is_none;
-	}
-	
 	char check_exists[256];
 	memset(check_exists, 0, sizeof(check_exists));
 	strcpy(check_exists, output);
-	
-	if (!check_child) {
+
+	if (!check_child) { //If we aren't checking the child of the path, we can remove that part of the path
 		int last_slash_idx = -1;
 		for (int i = 0; i < strlen(check_exists); i++) {
 			if (check_exists[i] == '/') {
 				last_slash_idx = i;
 			}
 		}
-		if (last_slash_idx == -1) {
-			return false;
+		if (last_slash_idx != -1) {
+			check_exists[last_slash_idx] = '\0';
 		}
-		check_exists[last_slash_idx] = '\0';
 	}
 
-	return exists_recursive(check_exists, 0, check_child);
+	int check_len = strlen(check_exists);
+	bool is_root_path = false;
+	if (check_exists[check_len - 1] == ':') {
+		check_exists[check_len - 1] = 0;
+		is_root_path = true;
+	} else if (check_exists[check_len - 2] == ':' && check_exists[check_len - 1] == '/') {
+		check_exists[check_len - 2] = 0;
+		is_root_path = true;
+	}
+
+	if (is_root_path) { //If it's a root path, we need to check if there is an fs there
+		bool did_find = false;
+
+		char fs_name[512];
+		memset(fs_name, 0, 512);
+
+		int idx = 0;
+		while(fs_at(idx++, fs_name)) {
+			if (strcmp(check_exists, fs_name) == 0) {
+				did_find = true;
+				break;
+			}
+			memset(fs_name, 0, 512);
+		}
+
+		return did_find;
+	}
+
+	return exists_recursive(check_exists, 0);
 }
 
 bool resolve(char* path, char* output) {

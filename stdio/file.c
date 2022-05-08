@@ -54,7 +54,7 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->size = get_file_size(fd);
 	file->pos = 0;
 
-	file_list_head = __libc_list_append((uint64_t) file, (uint64_t) NULL, file_list_head);
+	file_list_head = __libc_list_append(file, NULL, file_list_head);
 
 	return file;
 }
@@ -163,6 +163,14 @@ char *fgets(char *s, int size, FILE *stream) {
 
 int ferror(FILE *stream) {
 	return 0;
+}
+
+int getc(FILE *stream) { //This should work
+	return fgetc(stream);
+}
+
+int ungetc(int c, FILE *stream) {
+	write(stream->inner_fd, &c, 1, stream->pos - 1);
 }
 
 void __libc_close_files_enumerator(struct list_node_t* node) {
