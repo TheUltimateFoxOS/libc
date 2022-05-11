@@ -62,7 +62,7 @@ void* realloc(void* pointer, size_t size) {
 
 	struct list_node_t* old_alloc = __libc_list_search(alloc_list_head, (uint64_t) pointer);
 
-	if(old_alloc->data2 > size) {
+	if (old_alloc->data2 > size) {
 		memcpy(new_ptr, pointer, size);
 	} else {
 		memcpy(new_ptr, pointer, old_alloc->data2);
