@@ -54,7 +54,7 @@ FILE *fopen(const char *filename, const char *mode) {
 	file->size = get_file_size(fd);
 	file->pos = 0;
 
-	file_list_head = __libc_list_append(file, NULL, file_list_head);
+	file_list_head = __libc_list_append((uint64_t) file, 0, file_list_head);
 
 	return file;
 }
