@@ -4,11 +4,15 @@
 #include <stdio.h>
 #include <buildin/thread.h>
 
-shutdown_hook_t shutdown_hook;
+shutdown_hook_t shutdown_hook[16] = { 0 };
 
 void __libc_exit(int code) {
 	if (shutdown_hook != NULL) {
-		shutdown_hook();
+		for (int i = 0; i < 16; i++) {
+			if (shutdown_hook[i] != NULL) {
+				shutdown_hook[i]();
+			}
+		}
 	}
 
 	//#warning "Deallocate allocated memory and stuff here!";
@@ -36,8 +40,12 @@ void _Exit(int status) {
 }
 
 void __libc_set_shutdown_hook(shutdown_hook_t hook) {
-	if (shutdown_hook != NULL) {
-		write(STDERR, "--- WARNING: shutdown hook already set! overwriting! ---\n", 58, 0);
+	for (int i = 0; i < 16; i++) {
+		if (shutdown_hook[i] == NULL) {
+			shutdown_hook[i] = hook;
+			return;
+		}
 	}
-	shutdown_hook = hook;
+
+	printf("--- WARNING --- No more space for shutdown hooks!\n");
 }
