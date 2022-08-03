@@ -37,3 +37,6 @@ EXPOSEC void qsort(void *base, size_t nitems, size_t size, int (*compar)(const v
 EXPOSEC int atoi(const char *str);
 
 EXPOSEC void system(char* command);
+
+EXPOSEC long strtol(char* input, char** out, int number_system_base);
+EXPOSEC int scanf(const char* format, ...);
