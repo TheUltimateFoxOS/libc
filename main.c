@@ -12,6 +12,8 @@ void _start() {
 	for (int i = 0; i < 32; i++) {
 		env_set2(ENV_SIGHANDLER, i, __libc_sighandler);
 	}
+
+	env_set2(ENV_SIGHANDLER, SIG_INTR, __libc_intr_sighandler);
 	
 	__libc_init_alloc();
 	__libc_init_stdio();

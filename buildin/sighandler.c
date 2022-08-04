@@ -75,3 +75,9 @@ void __libc_sighandler(uint8_t signum) {
 
 	abort();
 }
+
+
+void __libc_intr_sighandler(uint8_t signum) {
+	printf("Force exiting...\n");
+	abort();
+}
