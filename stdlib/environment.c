@@ -6,6 +6,7 @@
 
 #include <sys/dir_at.h>
 #include <sys/fs_at.h>
+#include <sys/dbg.h>
 
 char* getenv(const char* name) {
 
@@ -30,7 +31,7 @@ char* getenv(const char* name) {
 bool compute_dot_dot(char* path, char* output);
 
 bool exists_recursive(char* input, int current_slash) {
-	// printf("exists_recursive: %s\n", input);
+	debugf("exists_recursive: %s", input);
 	char path_to_check[256];
 	char file_or_dir_to_check[256];
 
@@ -61,8 +62,8 @@ bool exists_recursive(char* input, int current_slash) {
 		}
 	}
 
-	// printf("path_to_check: %s\n", path_to_check);
-	// printf("file_or_dir_to_check: %s\n", file_or_dir_to_check);
+	debugf("path_to_check: %s", path_to_check);
+	debugf("file_or_dir_to_check: %s", file_or_dir_to_check);
 
 	if (file_or_dir_to_check[0] == '\0') {
 		return true;
@@ -82,7 +83,7 @@ bool exists_recursive(char* input, int current_slash) {
 			}
 		}
 
-		// printf("dir.name: %s\n", dir.name);
+		debugf("dir.name: %s", dir.name);
 
 		if (strcmp(dir.name, file_or_dir_to_check) == 0) {
 			return exists_recursive(input, current_slash + 1);
@@ -211,7 +212,7 @@ bool compute_dot_dot(char* path, char* output) {
 	for (int i = 0; i < path_segments_count; i++) {
 		if (strcmp(path_segments[i], "..") == 0) {
 			if (i == 0) {
-				printf("Unsupported path: '%s'\n", path);
+				printf("Unsupported path: '%s'", path);
 				return false;
 			}
 
