@@ -1,6 +1,7 @@
 #include <buildin/sighandler.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/env.h>
 
 char* __libc_get_exception_name(int exc){
 	switch(exc){
@@ -63,6 +64,9 @@ char* __libc_get_exception_name(int exc){
 			break;
 		case 0x1e:
 			return("Security-sensitive event in Host");
+			break;
+		case SIG_KASSERT_FAIL:
+			return("Kernel assertion failed");
 			break;
 		default:
 			return("Reserved");
