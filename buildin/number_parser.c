@@ -3,38 +3,20 @@
 #include <stdbool.h>
 
 char* __libc_parse_number(char* input, int* output) {
-	bool hex = false;
-	bool bin = false;
-	bool dec = false;
-
-	int start_offset = 0;
+	int idx = 0;
+	int number_system_base = 10;
 
 	if (input[0] == '0') {
 		if (input[1] == 'x') {
-			hex = true;
-			start_offset = 2;
+			number_system_base = 16;
+			idx = 2;
 		} else if (input[1] == 'b') {
-			bin = true;
-			start_offset = 2;
-		} else {
-			dec = true;
+			number_system_base = 2;
+			idx = 2;
 		}
-	} else {
-		dec = true;
-	}
-
-	int number_system_base = 0;
-
-	if (hex) {
-		number_system_base = 16;
-	} else if (bin) {
-		number_system_base = 2;
-	} else {
-		number_system_base = 10;
 	}
 
 	int _number = 0;
-	int idx = start_offset;
 
 	while (input[idx] != '\0') {
 		if (input[idx] >= '0' && input[idx] <= '9') {
