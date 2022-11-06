@@ -2,6 +2,7 @@
 #include <sys/env.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 
 #include <buildin/sighandler.h>
 #include <buildin/thread.h>

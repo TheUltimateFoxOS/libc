@@ -56,6 +56,7 @@ EXPOSEC int fputc(int c, FILE *stream);
 EXPOSEC int fgetc(FILE *stream);
 EXPOSEC char *fgets(char *s, int size, FILE *stream);
 EXPOSEC int ferror(FILE *stream);
+EXPOSEC void clearerr(FILE *stream);
 EXPOSEC int feof(FILE* stream);
 
 EXPOSEC int getc(FILE *stream);

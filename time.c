@@ -1,6 +1,8 @@
 #include <time.h>
 
 #include <sys/time.h>
+#include <sys/clock.h>
+
 #include <stdlib.h>
 
 time_t time(time_t *tp) {
@@ -95,4 +97,12 @@ struct tm *localtime(const time_t *tp) {
 	tm->tm_isdst = 0;
 
 	return tm;
+}
+
+clock_t clock() {
+	return (clock_t) _clock();
+}
+
+clock_t __libc_ticks_per_second() {
+	return (clock_t) _clock_ticks_per_second();
 }

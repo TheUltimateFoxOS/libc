@@ -161,8 +161,12 @@ char *fgets(char *s, int size, FILE *stream) {
 	return s;
 }
 
-int ferror(FILE *stream) {
+int ferror(FILE *stream) { //TODO
 	return 0;
+}
+
+void clearerr(FILE *stream) { //TODO Requires ferror to be implemented
+	//no-op
 }
 
 int getc(FILE *stream) { //This should work

@@ -9,6 +9,9 @@
 #define isalnum(c) (isalpha(c) || isdigit(c))
 #define isblank(c) (c == ' ' || c == '\t')
 #define isxdigit(c) (isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'))
+#define isgraph(c) (((unsigned) c) - 0x21 < 0x5e)
+#define isprint(c) (((unsigned) c) - 0x20 < 0x5f)
+#define ispunct(c) (isgraph(c) && !isalnum(c))
 
 #define tolower(c) (isupper(c) ? c - ('A' - 'a') : c)
 #define toupper(c) (islower(c) ? c - ('a' - 'A') : c)
