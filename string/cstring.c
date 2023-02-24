@@ -207,3 +207,28 @@ size_t strcspn(const char* str1, const char* str2) {
 
 	return count;
 }
+
+char* strsep(char** stringp, const char* delim) {
+	char* start = *stringp;
+	
+	if (start == NULL) {
+		return NULL;
+	}
+
+	char* end = start + strcspn(start, delim);
+
+	if (*end) {
+		*end++ = '\0';
+		*stringp = end;
+	} else {
+		*stringp = NULL;
+	}
+
+	return start;
+}
+
+char* stpcpy(char* dest, const char* src) {
+	size_t len = strlen(src);
+	memcpy(dest, src, len);
+	return dest + len;
+}

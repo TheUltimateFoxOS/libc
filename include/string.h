@@ -18,6 +18,8 @@ EXPOSEC char* strncpy(char* _dst, const char* _src, size_t count);
 EXPOSEC char* strtok(char* src_string, char* delim);
 EXPOSEC size_t strspn(const char* str1, const char* str2);
 EXPOSEC size_t strcspn(const char* str1, const char* str2);
+EXPOSEC char* strsep(char** stringp, const char* delim);
+EXPOSEC char* stpcpy(char* dest, const char* src);
 
 EXPOSEC void* memcpy(void* dest, const void* src, size_t n);
 EXPOSEC void* memmove(void* dest, const void* src, size_t len);

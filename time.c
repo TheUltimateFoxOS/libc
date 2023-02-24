@@ -103,6 +103,14 @@ clock_t clock() {
 	return (clock_t) _clock();
 }
 
+double difftime(time_t time1, time_t time2) {
+	if (time1 < time2) {
+		return (double) (time2 - time1);
+	} else {
+		return (double) (time1 - time2);
+	}
+}
+
 clock_t __libc_ticks_per_second() {
 	return (clock_t) _clock_ticks_per_second();
 }

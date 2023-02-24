@@ -26,5 +26,6 @@ EXPOSEC time_t mktime(struct tm *tp);
 EXPOSEC struct tm *gmtime(const time_t *tp);
 EXPOSEC struct tm *localtime(const time_t *tp);
 EXPOSEC clock_t clock();
+EXPOSEC double difftime(time_t time1, time_t time2);
 
 EXPOSEC clock_t __libc_ticks_per_second();
